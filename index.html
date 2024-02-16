@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The World's of movies</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="navbar">
+        <div class="navbar_container">
+          <button class="navbar_logo">
+            <img class="navbar_logo-button image" src="./media/logo.svg" alt="" />
+          </button>
+          <button class="navbar_search">
+            <img class="image" src="./media/search.svg" alt="" />
+          </button>
+        </div>
+        <div class="navbar_categories">
+          <button class="button_series button_principal">Series</button>
+          <button class="button_films button_principal">Films</button>
+          <button class="button_categories button_principal">Categorias</button>
+        </div>
+      </div>
+    </nav>
+    <header>
+      <div class="filmBanner">
+        <div class="fillBanner_container">
+          <div class="fillBanner_img">
+            <img
+              src="https://hips.hearstapps.com/es.h-cdn.co/fotoes/images/cinefilia/mejores-posters-no-oficiales-deadpool-2/deadpool2-09/137922903-1-esl-ES/deadpool2-09.jpg"
+              alt=""
+            />
+          </div>
+          <div class="fillBanner_information">
+            <div class="fillBanner_categories">
+              <p>Accion</p>
+              <p>Romance</p>
+            </div>
+            <div class="fillBanner_buttons">
+              <button class="button_play button">
+                <img src="./media/arrow-right.svg" alt="" />Play film
+              </button>
+              <button class="button_list button">
+                <img src="./media/add.svg" alt="" />Lista
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="home">
+        <section class="trending">
+          <div class="trending_header">
+            <h1 class="trending_title title">Trending</h1>
+            <button class="trending_button button allFilms_button">
+              Ver mas
+            </button>
+          </div>
+          <div class="trending_gallery">
+            <div data-component="trending_carousel">
+              <ul class="trending_carousel-entries">
+                <!-- <li>
+                  <a name="carousel_01" >
+                    <img
+                      class="image"
+                      src="https://files.oaiusercontent.com/file-6luCtNUZs37Kr7vOdXmy8Fbx?se=2024-02-13T13%3A34%3A26Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D752db0bd-dece-4825-b5f4-e36ee79cd1cc.webp&sig=muDAgoKQ6uVKodr7BwN2HccfBuFsjOsBmK2zxbmi/VM%3D"
+                      alt=""
+                      draggable="false"
+                    />
+                    <img
+                      class="image"
+                      src="https://files.oaiusercontent.com/file-6luCtNUZs37Kr7vOdXmy8Fbx?se=2024-02-13T13%3A34%3A26Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D752db0bd-dece-4825-b5f4-e36ee79cd1cc.webp&sig=muDAgoKQ6uVKodr7BwN2HccfBuFsjOsBmK2zxbmi/VM%3D"
+                      alt=""
+                      draggable="false"
+                    />
+                  </a>
+                </li> -->
+              </ul>
+              <ul class="trending_carousel-bullets">
+                <!-- <li><a href="#carousel_01"></a></li> -->
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section class="genre">
+          <div class="genre_navbar">
+            <div></div>
+            <div class="genre_select-container">
+              <details class="genre_sections">
+                <summary class="genre_sections-genre summary">Genre</summary>
+                <div class="contentSummary"></div>
+                <details class="genre_categories">
+                  <summary class="genre_sections-categories summary">
+                    Categories
+                  </summary>
+                  <div class="contentSummary contentSummary-categories"></div>
+                </details>
+              </details>
+              <div class="genre_select">
+                <span class="genre_select-genre">Films</span> /
+                <span class="genre_select-categories">Action</span>
+              </div>
+            </div>
+          </div>
+          <div class="genre_content-container">
+            <div class="genre_content">
+              <!-- <img
+                class="image"
+                src="https://files.oaiusercontent.com/file-6luCtNUZs37Kr7vOdXmy8Fbx?se=2024-02-13T13%3A34%3A26Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D752db0bd-dece-4825-b5f4-e36ee79cd1cc.webp&sig=muDAgoKQ6uVKodr7BwN2HccfBuFsjOsBmK2zxbmi/VM%3D"
+                alt=""
+                draggable="false"
+              /> -->
+
+            </div>
+          </div>
+          <div class="genre_button-container">
+            <button class="genre_button button allFilms_button">Ver mas</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <section class="details" popover role="popover" id="popover">
+      <button
+        class="closePopover"
+        popovertarget="popover"
+        popovertargetaction="hide"
+      >
+        <img src="./media/close.svg" alt="" />
+      </button>
+      <button
+        class="return_popover"
+        popovertarget="popover"
+        popovertargetaction="hide"
+      >
+        <img src="./media/arrow-left.svg" alt="" />
+      </button>
+      <div class="details_container">
+        <div class="details_img">
+          <!-- <img
+            class="image"
+            src="https://files.oaiusercontent.com/file-6luCtNUZs37Kr7vOdXmy8Fbx?se=2024-02-13T16%3A48%3A18Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D752db0bd-dece-4825-b5f4-e36ee79cd1cc.webp&sig=Qvm5EuK3lhRWoYNjKcZ0FcQjb6tJCpYu/DXykKDm6tk%3D"
+            alt=""
+          /> -->
+        </div>
+        <div class="details_content">
+          <div class="details_header">
+            <h1 class="details_title title"></h1>
+            <div class="details_review">
+              <img src="./media/stars.svg" alt="" />
+              <p></p>
+            </div>
+          </div>
+          <div class="details_description">
+            <p></p>
+          </div>
+          <div class="details_button">
+            <button class="button_play button " popovertarget="popover">
+              <img src="./media/arrow-right-white.svg" alt="" />Play film
+            </button>
+            <button class="button_favorite button">
+              <img src="./media/hearth.svg" alt="" />Add Favorite
+            </button>
+            <button class="button_list button">
+              <img src="./media/add.svg" alt="" />Add List
+            </button>
+          </div>
+          <div class="details_categories">
+            <ul>
+              <!-- <li>Romance</li>
+              <li>Accion</li>
+              <li>Drama</li> -->
+            </ul>
+          </div>
+          <div class="title">Films Similar</div>
+          <div class="details_filmsSimilar">
+            <!-- <img
+              class=""
+              src="https://files.oaiusercontent.com/file-6luCtNUZs37Kr7vOdXmy8Fbx?se=2024-02-13T16%3A48%3A18Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D752db0bd-dece-4825-b5f4-e36ee79cd1cc.webp&sig=Qvm5EuK3lhRWoYNjKcZ0FcQjb6tJCpYu/DXykKDm6tk%3D"
+              alt=""
+            /> -->
+          
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="allFilms" class="inactive">
+      <div class="allFilms_header">
+        <button class="allFilms_button return_hash">
+          <img src="./media/arrow-left.svg" alt="" />
+        </button>
+        <h1 class="allFilms_title title">Films / Action</h1>
+      </div>
+      <div class="allFilms_container">
+        <!-- <img
+          class="image"
+          src="https://files.oaiusercontent.com/file-6luCtNUZs37Kr7vOdXmy8Fbx?se=2024-02-13T13%3A34%3A26Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D752db0bd-dece-4825-b5f4-e36ee79cd1cc.webp&sig=muDAgoKQ6uVKodr7BwN2HccfBuFsjOsBmK2zxbmi/VM%3D"
+          alt=""
+          draggable="false"
+        /> -->
+      </div>
+    </section>
+
+    <section id="search" class="inactive">
+      <div class="search_header">
+        <button class="return_hash">
+          <img src="./media/arrow-left.svg" alt="" />
+        </button>
+        <div class="search_form">
+          <input class="search_form-input" type="text" placeholder="Buscar..." />
+          <button class="search_button">
+            <img src="./media/searchSimply.svg" alt="" />
+          </button>
+        </div>
+      </div>
+      <div class="search_container">
+        <!-- <img
+          class="image"
+          src="https://files.oaiusercontent.com/file-6luCtNUZs37Kr7vOdXmy8Fbx?se=2024-02-13T13%3A34%3A26Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D752db0bd-dece-4825-b5f4-e36ee79cd1cc.webp&sig=muDAgoKQ6uVKodr7BwN2HccfBuFsjOsBmK2zxbmi/VM%3D"
+          alt=""
+          draggable="false"
+        /> -->
+      </div>
+    </section>
+
+    <section id="filmDetails" class="inactive">
+      <button class="return_hash">
+        <img src="./media/arrow-left.svg" alt="" />
+      </button>
+      <p>Detalle de las peliculas</p>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="./src/main.mjs"></script>
+  </body>
+</html>
