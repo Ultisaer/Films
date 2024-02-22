@@ -43,7 +43,7 @@ const createImageElement = ({ data, isLazy = true }) => {
 const createButtonElement = (data) => {
   const button = document.createElement('button');
   const img = document.createElement('img');
-  img.src = '../../../media/hearth.svg'; // Imagen inicial
+  img.src = './media/hearth.svg'; // Imagen inicial
   button.className = 'favorite_button';
   button.append(img);
   buttonEvent(button, img, data);
@@ -54,7 +54,7 @@ const parseListLiked = JSON.parse(likedFilmsList())
 
 const buttonEvent = (button, img, data) => {
   if (parseListLiked[data.id] !== undefined) {
-    img.src = '../../../media/hearthSelect.svg'
+    img.src = './media/hearthSelect.svg'
     button.classList.add('favorite_button-liked');
   }
 
@@ -62,8 +62,8 @@ const buttonEvent = (button, img, data) => {
     button.classList.toggle('favorite_button-liked');
     
     button.classList.contains('favorite_button-liked')
-      ? img.src = '../../../media/hearthSelect.svg'
-      : img.src = '../../../media/hearth.svg';
+      ? img.src = './media/hearthSelect.svg'
+      : img.src = './media/hearth.svg';
     likeFilm(data)
   });
 }
