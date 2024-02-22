@@ -1,85 +1,55 @@
+import { language } from "./render/global/localStorageLanguaje.js";
+language()
 import { settings } from "./settings.js";
-import { navigation } from "./navigation.js";
-import {
-  doom,
-  doomAll
-} from "./doom.js";
-
-const API = axios.create({
-  baseURL: settings.API_URL,
-  headers: { Authorization: `Bearer ${settings.API_AUTHORIZATION}` },
-});
-
-const options = {
-  method: "GET",
-  headers: { Authorization: `Bearer ${settings.API_AUTHORIZATION}` },
-};
-
-const timeWindow = "day";
-const genresList = ["Series", "Films"];
-const categoriesList = {}
+import { navigation } from "./render/navigation/navigation.js";
+import { doom, doomAll } from "./render/global/doom.js";
+import { API , options } from "./render/global/configuration.js";
+import { global } from "./render/global/vars.js";
+import { renderGenres } from "./render/initial/genres.js";
+// import { renderCategories } from "./render/initial/categories.js";
+// import { loadLazyImages , loadMoreFilms} from "./render/observer/observer.js"
+import { generateImgs , generateImgsCarousel } from "./render/create/imageGenerator.js"
+const timeWindow = global.time
+const genresList = global.genres
+const categoriesList = global.categories
 
 // Obtener la visualicacion de las peliculas populares
-const getMoviesTrendingPreview = async () => {
-  const trendingEntries = doom.trendingEntries
-  const trendingBullets = doom.trendingBullets
 
+
+const getMoviesTrendingPreview = async () => {
+  const entries = doom.trendingEntries
+  const bullets = doom.trendingBullets
   const { data } = await API(`/trending/movie/${timeWindow}`);
   const movies = data.results;
+  const filmRandom = Math.floor(Math.random() * movies.length)
 
-  let view = 0;
-
-  movies.forEach((data, index) => {
-    if (index % 2 !== 0) {
-      view++;
-
-      const listItem = document.createElement("li");
-      const linkItem = document.createElement("a");
-      linkItem.name = `carousel_${view.toString().padStart(2, "0")}`;
-
-      const images = (index) => {
-        const image = document.createElement("img");
-        image.className = "image";
-        image.id = `trending_${index}`;
-        image.src = `${settings.IMAGE_URL}${movies[index].poster_path}`;
-        image.alt = movies[index].title;
-        image.draggable = false;
-        image.value = data.id
-        image.setAttribute("popovertarget", "popover");
-        return image
-      }
-
-      const img1 = images( index - 1)
-      const img2 = images( index)
-
-
-      linkItem.append(img1, img2);
-      listItem.append(linkItem);
-      trendingEntries.append(listItem);
-
-      const listBullet = document.createElement("li");
-      const linkBullet = document.createElement("a");
-      linkBullet.href = `#carousel_${view.toString().padStart(2, "0")}`;
-
-      listBullet.append(linkBullet);
-      trendingBullets.append(listBullet);
-    }
-  });
-
+  renderBanner(movies[filmRandom])
+  generateImgsCarousel(movies, entries, bullets)
   addTrendingEventListener();
+  doom.trendingCarouselLoader.style.display = 'none'
 };
-getMoviesTrendingPreview();
 
-// Obtener la visualizacion de los generos y categorias
-const renderGenres = () => {
-  genresList.forEach((element) => {
-    const contentSummary = doom.contentSummary
-    const genre = document.createElement("p");
-    genre.textContent = element;
-    contentSummary.append(genre);
-  });
-  addGenreEventListeners();
-};
+getMoviesTrendingPreview(); // RENDERIZADO_INICIAL
+
+const renderBanner = (data) => {
+  const fillBanner = doom.fillBanner
+  fillBanner.innerHTML = ''
+  generateImgs([data], fillBanner, true)
+  genresBanner(data.genre_ids)
+} 
+const genresBanner = async (categories) => {
+  const { data } = await API('/genre/movie/list')
+  const fillBannerCategories = doom.fillBannerCategories
+  categories.forEach((value) => {
+    data.genres.forEach(({id, name}) => {
+      if (id === value) {
+        const p = document.createElement('p')
+        p.innerText = name
+        fillBannerCategories.append(p)
+      }
+    })
+  })
+}
 
 const renderCategories = async () => {
   const contentCategories = doom.contentCategories
@@ -97,25 +67,6 @@ const renderCategories = async () => {
 
   updateSelectGenre()
   addCategoryEventListeners();
-};
-
-// Agregar un escuchador para determinar que genero o categorias que se selecciono
-
-// Genero
-const addGenreEventListeners = () => {
-  const genreElements = doomAll.genreElements()
-  const genreSelect = doom.genreSelect
-
-  genreElements.forEach((p) => {
-    p.addEventListener("click", (e) => {
-      const genre = e.target.textContent;
-      if (genresList.includes(genre)) {
-        genreSelect.textContent = genre;
-        updateSelectGenre()
-      }
-    });
-  });
-
 };
 
 // Categoria
@@ -149,7 +100,6 @@ const addTrendingEventListener = () => {
   });
 };
 
-renderGenres();
 renderCategories();
 
 // Navegacion entre paginas
@@ -161,7 +111,7 @@ const allFilmsButton = doomAll.allFilms()
 
 allFilmsButton.forEach((film) => {
   film.addEventListener('click' , () => {
-    location.hash = "#allFilms"
+    location.hash = "#allFilms" //L9
   })
 })
 
@@ -213,7 +163,8 @@ const updateSelectGenre = () =>  {
   renderFilmsGenre()
 }
 
-const renderFilmsGenre = async () => {
+// Renderiza las peliculas en base al value establecido
+const renderFilmsGenre = async () => { // LM
   const [genreData , category] = genre.value.split('/ ')
   const id = categoriesList[category]
   const dataQuery = await API('discover/movie', {
@@ -221,33 +172,12 @@ const renderFilmsGenre = async () => {
       with_genres: id,
     },
   });
+  maxPage = dataQuery.data.total_pages
   const results = dataQuery.data.results
 
   filmsGenrePrevius(results)
   filmsGenreContent(results)
-
 }
-
-const generateImgs = (value, container) => {
-  value.forEach((data) => {
-    const img = document.createElement('img');
-    const poster = data.poster_path === null 
-      ? settings.IMAGE_NOT_FOUND 
-      : `${settings.IMAGE_URL}${data.poster_path}`
-    const id = data.id
-    img.src = poster;
-    img.alt = data.title;
-    img.draggable = false;
-    img.className = 'image';
-    img.value = id
-    img.addEventListener("click", (e) => {
-      popover.showPopover();
-      location.hash = `filmPreview_${id}`
-      renderFilmPreview(id)
-    });
-    container.append(img);
-  });
-} 
 
 const filmsGenrePrevius =  (results) => {
   const genreContent = doom.genreContent
@@ -255,6 +185,7 @@ const filmsGenrePrevius =  (results) => {
 
   const minData = results.slice(0, 6);
   generateImgs(minData, genreContent)
+  doom.genreContentLoader.style.display = 'none'
 }
 const filmsGenreContent = (results) => {
   const allFilmsTitle = doom.allFilmsTitle
@@ -267,6 +198,7 @@ const filmsGenreContent = (results) => {
 
 const renderFilmsTrending = async () => {
   const { data } = await API(`/trending/movie/${timeWindow}`);
+  maxPage = data.total_pages
   const movies = data.results;
   
   const allFilmsTitle = doom.allFilmsTitle
@@ -279,11 +211,112 @@ const renderFilmsTrending = async () => {
 
 trending.addEventListener('click' , () => {
   renderFilmsTrending()
+  location.hash = '#allFilms_Trending'
 })
 
 genre.addEventListener('click' , () => {
   renderFilmsGenre()
+  location.hash = `#allFilms_Genre-${allFilms.textContent.split('/ ')[1]?.trim()}`
 })
+
+// Renderiza las peliculas con infinite scroll
+let maxPage;
+let page = 1;
+
+const loadLazyImages = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const url = entry.target.getAttribute('data-src')
+      entry.target.src = url
+    }
+  })
+})
+
+const loadMoreFilms = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      renderPaginatedFilms()
+    }
+  }) 
+})
+
+const loadMoreSearch = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      renderPaginatedFilms()
+    }
+  }) 
+})
+const endFilms = doom.endFilms
+const endSearch= doom.endSearch
+
+loadMoreFilms.observe(endFilms)
+loadMoreSearch.observe(endSearch)
+
+const renderPaginatedFilms = async () => {
+  const allFilms = doom.allFilmsTitle
+  const pageIsNotmAX = page < maxPage
+  let type = ''
+  if (location.hash === '#allFilms_Trending') {
+    type = 'Trending'
+  }
+  else if (location.hash.startsWith('#searchFilms')) {
+    type = 'Search'
+  }
+  else if (location.hash.startsWith('#allFilms_Genre')) {
+    type = 'Genre'
+  }
+  if (!pageIsNotmAX) {
+    console.log('Es el maximo chamo')
+    return
+  }
+
+  if (type === 'Trending' && pageIsNotmAX) {
+    const { data } = await API(`trending/movie/${timeWindow}`, {
+      params: {
+        page: page++
+      }
+    });
+
+    const movies = data.results;
+    const allFilmsTitle = doom.allFilmsTitle
+    const allFilmsContainer = doom.allFilmsContainer
+    allFilmsTitle.textContent = trending.value
+    generateImgs(movies, allFilmsContainer)
+  } 
+  
+  else if (type === 'Genre' && pageIsNotmAX) {
+    const [_ , category] = allFilms.textContent.split('/ ')
+    const id = categoriesList[category]
+    const dataQuery = await API('discover/movie', {
+      params: {
+        with_genres: id,
+        page: page++
+      },
+    });
+    // console.log(dataQuery)
+    const results = dataQuery.data.results
+    const allFilmsTitle = doom.allFilmsTitle
+    const allFilmsContainer = doom.allFilmsContainer
+    allFilmsTitle.textContent = genre.value
+    generateImgs(results, allFilmsContainer)
+  }
+
+  else if (type === 'Search' && pageIsNotmAX) {
+    const searchFormInput = doom.searchFormInput
+
+    const { data } = await API('search/movie',{
+      params : {
+        'query' : searchFormInput.value,
+        page: page++
+      }
+    })
+  
+    const searchContainer = doom.searchContainer
+    generateImgs(data.results, searchContainer)
+  }
+
+}
 
 // Search render
 const searchFormInput = doom.searchFormInput

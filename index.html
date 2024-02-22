@@ -12,6 +12,9 @@
     />
     <link rel="stylesheet" href="./styles/style.css" />
   </head>
+  <div class="desktopTop"></div>
+  <div class="desktopBottom"></div>
+
   <body>
     <nav>
       <div class="navbar">
@@ -24,25 +27,30 @@
           </button>
         </div>
         <div class="navbar_categories">
-          <button class="button_series button_principal">Series</button>
+          <select name="language" id="languageOptions">            
+            <option value="en-US">English</option>
+            <option value="es">Spanish</option>
+            <option value="pt-BR">Portuguese Br</option>
+            <option value="fr">French</option>
+        </select>
+          <!-- <button class="button_series button_principal">Series</button>
           <button class="button_films button_principal">Films</button>
-          <button class="button_categories button_principal">Categorias</button>
+          <button class="button_categories button_principal">Categorias</button> -->
         </div>
       </div>
     </nav>
     <header>
       <div class="filmBanner">
-        <div class="fillBanner_container">
-          <div class="fillBanner_img">
-            <img
+        <div class="fillBanner_container loaderBanner">
+          <div class="fillBanner_img loaderBanner"> 
+            <!-- <img
               src="https://hips.hearstapps.com/es.h-cdn.co/fotoes/images/cinefilia/mejores-posters-no-oficiales-deadpool-2/deadpool2-09/137922903-1-esl-ES/deadpool2-09.jpg"
               alt=""
-            />
+            /> -->
           </div>
           <div class="fillBanner_information">
             <div class="fillBanner_categories">
-              <p>Accion</p>
-              <p>Romance</p>
+
             </div>
             <div class="fillBanner_buttons">
               <button class="button_play button">
@@ -67,6 +75,13 @@
           </div>
           <div class="trending_gallery">
             <div data-component="trending_carousel">
+              <div class="trending_carousel-loader">
+                <div class="trending_carousel-loaderImg" >
+                  <div></div>
+                  <div></div>
+                </div>
+                <div class="trending_carousel-loaderButton"></div>
+              </div>
               <ul class="trending_carousel-entries">
                 <!-- <li>
                   <a name="carousel_01" >
@@ -113,6 +128,9 @@
           </div>
           <div class="genre_content-container">
             <div class="genre_content">
+              <div class="genre_content-loader genre_content-loader">
+                <div></div><div></div><div></div><div></div><div></div><div></div>
+              </div>
               <!-- <img
                 class="image"
                 src="https://files.oaiusercontent.com/file-6luCtNUZs37Kr7vOdXmy8Fbx?se=2024-02-13T13%3A34%3A26Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D752db0bd-dece-4825-b5f4-e36ee79cd1cc.webp&sig=muDAgoKQ6uVKodr7BwN2HccfBuFsjOsBmK2zxbmi/VM%3D"
@@ -209,6 +227,7 @@
           draggable="false"
         /> -->
       </div>
+      <div id="endOfContentFilms"></div>
     </section>
 
     <section id="search" class="inactive">
@@ -231,6 +250,7 @@
           draggable="false"
         /> -->
       </div>
+      <div id="endOfContentSearch"></div>
     </section>
 
     <section id="filmDetails" class="inactive">
@@ -238,6 +258,16 @@
         <img src="./media/arrow-left.svg" alt="" />
       </button>
       <p>Detalle de las peliculas</p>
+    </section>
+
+    <section id="favoriteFilms">
+      <div class="favorite_header">
+        <h1 class="favorite_title title">Favorite Films</h1>
+      </div>
+      <div class="favorite_gallery">
+       <!-- <img class="image" src="https://image.tmdb.org/t/p/original//AbFtI353N2Pggl5TxfsI2VtpUt8.jpg" alt=""> -->
+      </div>
+      <!-- <button class="favorite_moreFilms button">Ver mas</button> -->
     </section>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="./src/main.mjs"></script>

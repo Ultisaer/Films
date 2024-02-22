@@ -3,11 +3,14 @@ const doom = {
   trendingEntries: document.querySelector(".trending_carousel-entries"),
   trendingBullets: document.querySelector(".trending_carousel-bullets"),
 
+  // Banner 
+  fillBanner: document.querySelector(".fillBanner_img"),
+  fillBannerCategories : document.querySelector(".fillBanner_categories"),
+
   // List container genre category
   contentSummary: document.querySelector(".contentSummary"),
   contentCategories: document.querySelector(".contentSummary-categories"),
   genreSelect: document.querySelector(".genre_select-genre"),
-
   categorySelect: document.querySelector(".genre_select-categories"),
 
   // Popover
@@ -48,8 +51,25 @@ const doom = {
   detailsCategories : document.querySelector(".details_categories ul"),
   detailsFilmsSimilar : document.querySelector(".details_filmsSimilar"),
   detailsImg : document.querySelector(".details_img"),
-  returnPopover : document.querySelector(".return_popover")
+  returnPopover : document.querySelector(".return_popover"),
+
+  // Loaders 
+  loaderBanner: document.querySelector(".loaderBanner"),
+  trendingCarouselLoader : document.querySelector(".trending_carousel-loader"),
+  genreContentLoader : document.querySelector(".genre_content-loader "),
+
+  // InfiniteScroll
+  endFilms : document.querySelector("#endOfContentFilms"),
+  endSearch : document.querySelector("#endOfContentSearch"),
+  
+  // Favorite 
+  favoriteFilms : document.querySelector("#favoriteFilms"),
+  favoriteContainer : document.querySelector(".favorite_gallery"),
+
+  // Language 
+  languageOptions : document.querySelector("#languageOptions")
 };
+
 const doomAll = {
   trendingElements: () =>  document.querySelectorAll(".trending_carousel-entries li a img"),
   genreElements: () =>  document.querySelectorAll(".genre_sections .contentSummary p"),
